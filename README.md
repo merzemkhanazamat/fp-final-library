@@ -61,8 +61,8 @@ Copy the sample before a demonstration: cp Data/library.csv Data/demo.csv. Borro
 
 Repository URL: https://github.com/merzemkhanazamat/fp-final-library
 Branch: main
-Submitted commit: TO BE PROVIDED
+Submitted source commit: 379b14274253faf3c286bc0c3ad9bf1063ae15cb
 
-Git hosting and the identifiers above must be completed in this README and Reports/Project_Report.pdf before LMS submission. The uploaded code must match that commit. Both reports are included; review the individual contribution account in your own words. Code and reports were prepared with ChatGPT assistance; the assignment requires instructor permission and acknowledgement. Do not claim generated sections as independently authored.
+The source files in this archive match the submitted source commit above. A subsequent documentation-only commit on main records the source identifier; it does not change application code. Both reports are included in the LMS archive, rather than the public repository; review the individual contribution account in your own words. Code and reports were prepared with ChatGPT assistance; the assignment requires instructor permission and acknowledgement. Do not claim generated sections as independently authored.
 
 References: supplied Final Project Requirements PDF, L4-L10 materials and the live LMS Final Exam requirements. DEFENSE.md contains seven defense questions and answers.
