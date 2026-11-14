@@ -2,67 +2,58 @@
 
 Project owner: Azamat Merzemkhan, IT-2513. Individual project.
 
-## Run
+## Build and run on macOS
 
-Required: .NET SDK 10.0.x and a C compiler. On MacBook M2 use arm64 .NET and Apple Command Line Tools. If cc is missing, run xcode-select --install.
+Required: .NET SDK 10.0.x and Apple Command Line Tools. Use arm64 .NET on a MacBook M2. If cc is missing, install the Apple tools with xcode-select --install.
 
-From the extracted LibraryFinal folder:
-
-```bash
-sh test.sh
-sh run.sh
-```
-
-The scripts build the C library first. To use another data file:
+Run from the project root:
 
 ```bash
-sh run.sh Data/demo.csv
-```
-
-Separate commands:
-
-```bash
-sh Native/build.sh
+mkdir -p runtimes
+cc -dynamiclib -Wall -Wextra -Werror Native/fee.c -o runtimes/liblibraryfee.dylib
 dotnet build App/App.csproj
-dotnet build Tests/Tests.csproj
 dotnet run --project Tests/Tests.csproj
 dotnet run --project App/App.csproj -- Data/library.csv
 ```
 
-Native/build.sh uses cc -dynamiclib on macOS and cc -shared -fPIC on Linux. The project copies the matching library into its output directory for DllImport. Rebuild .NET after changing the native library. Native binaries, bin and obj folders are excluded from the archive. No external packages are required. Windows is not supported.
+On Linux, replace the cc command with:
 
-## Application
+```bash
+cc -shared -fPIC -Wall -Wextra -Werror Native/fee.c -o runtimes/liblibraryfee.so
+```
 
-Menu: 1 books and active loans, 2 borrow, 3 return, 4 renew, 5 reports, 0 exit.
+The project files copy the matching native library into the output folder for DllImport. Rebuild .NET after changing the C library. No external packages are required. Windows is not supported. Exclude bin, obj and compiled native files from the submission; the commands above reproduce them.
 
-Book and Loan are related by BookId. A loan lasts 14 days and can be renewed once for 7 more days. Dates are integer simulation days from 0 through 365000. Due day is not overdue. Reader names are case-sensitive. Standard policy permits 2 active loans; extended permits 4. With 2 active loans, standard rejects a third and extended permits it if other checks pass.
+## Scope and rules
 
-Logic.cs contains the pure workflows and two LINQ reports. Types.cs contains validated immutable models, Result, Maybe, Map and Bind. Overdue uses yield return; Program materialises a snapshot before reusing it. Storage.cs owns CSV I/O and disposes streams with using. It writes a temporary file before replacing the old data. Program accepts new state only after saving succeeds. Native.cs calls Native/fee.c to calculate a report estimate of 100 KZT per late day. No money is collected.
+Three workflows: borrow, return and renew. Two LINQ reports: overdue loans and stock by category. The native C function calculates an estimated fine of 100 KZT per late day. No money is collected.
 
-## Data and limits
+A loan lasts 14 days and can be renewed once for 7 more days. Dates are integer days from 0 through 365000. The due day is not overdue. Reader names are case-sensitive. Standard policy allows 2 active loans; extended allows 4. With 2 active loans, only extended permits a third when the other checks pass. Backdated reader operations are rejected.
 
-Default path: Data/library.csv, relative to the project folder when using run.sh.
+Types.cs contains immutable validated models, Result, Maybe, Map and Bind. Logic.cs contains the pure pipeline and reports. Overdue uses yield return and Program materialises a reusable snapshot with ToArray. Storage.cs handles CSV validation, stream disposal and temporary-file saving. The UI accepts new state only after saving succeeds. Native.cs handles native loading and entry-point failures.
 
-Header: Library,1
+## Data and demonstration
+
+The default path is Data/library.csv relative to the working directory. Pass another relative or absolute path after --.
+
+CSV header: Library,1
 
 Book row: B,id,title,category,copies
 
 Loan row: L,id,bookId,reader,start,due,returned,renewals,changed
 
-Returned=-1 means active. Text must be trimmed, nonempty, at most 80 characters, without commas, quotes or newlines. Loaded values and relationships are validated. Missing files, malformed content and native loading errors produce explicit failures. Returned loans remain as history. Use one process per data file. Historical queries, concurrent writes and power-loss durability are outside scope.
+Returned=-1 means active. Text must be trimmed, nonempty, at most 80 characters, without commas, quotes or newlines. Factories and Library.Create reject invalid values and relationships. Returned loans are retained as history. Single-process use is required; historical queries and crash/power-loss durability are outside scope.
 
-## Verification and demonstration
+For a demonstration, copy Data/library.csv to Data/demo.csv and run with that path. Borrow book 2 as Azamat on day 1, policy 1: loan 2 is due on day 15. Another reader cannot borrow its only copy. Renew loan 2 on day 2: due day 22. Return on day 3 succeeds; a repeated return fails. Report day 20: the original Demo Reader loan is 6 days overdue, total fine 600 KZT.
 
-Verified on Linux x64, .NET SDK 10.0.100: build with 0 warnings and 0 errors; 25 tests passed, 0 failed. Real P/Invoke success and a deliberately missing native symbol are tested. Tests include 8 pure/domain scenarios, 2 full workflows and 2 missing/malformed file scenarios, plus reports, ordering, policies, lazy snapshots, resources and persistence. See Evidence/tests.txt. Run sh test.sh on the target Mac before submission.
+## Validation and submission
 
-Copy the sample before a demonstration: cp Data/library.csv Data/demo.csv. Borrow book 2 as Azamat on day 1, policy 1: loan 2 is due on day 15. Borrow the same book as Other: unavailable. Renew loan 2 on day 2: due day 22. Return on day 3: success; repeat return: failure. Report day 20: original Demo Reader loan is 6 days overdue, native fee total 600 KZT. Actual output is in Evidence/demo.txt.
+Last verified on Linux x64 with .NET SDK 10.0.100: build with 0 warnings and 0 errors; 25 tests passed, 0 failed. Tests cover pure/domain rules, complete workflows, missing/malformed files, policies, ordering, propagation, reports, lazy snapshots, resources and real native success/failure. Run the test command above on the target Mac.
 
-## Submission
-
-Repository URL: https://github.com/merzemkhanazamat/fp-final-library
+Repository: https://github.com/merzemkhanazamat/fp-final-library
 Branch: main
 Submitted source commit: 379b14274253faf3c286bc0c3ad9bf1063ae15cb
 
-The source files in this archive match the submitted source commit above. A subsequent documentation-only commit on main records the source identifier; it does not change application code. Both reports are included in the LMS archive, rather than the public repository; review the individual contribution account in your own words.
+Both mandatory reports are in the LMS archive rather than the public repository. The submitted code matches the recorded source commit; later documentation updates do not change application logic.
 
-References: supplied Final Project Requirements PDF, L4-L10 materials and the live LMS Final Exam requirements. DEFENSE.md contains seven defense questions and answers.
+References: provided Final Project Requirements PDF, L4-L10 materials and the inspected LMS Final Exam requirements.
