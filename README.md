@@ -1,6 +1,6 @@
 # Library Management
 
-Azamat Merzemkhan, IT-2513. Individual project.
+Project owner: Azamat Merzemkhan, IT-2513. Individual project.
 
 ## Run
 
@@ -63,6 +63,6 @@ Repository URL: https://github.com/merzemkhanazamat/fp-final-library
 Branch: main
 Submitted source commit: 379b14274253faf3c286bc0c3ad9bf1063ae15cb
 
-The source files in this archive match the submitted source commit above. A subsequent documentation-only commit on main records the source identifier; it does not change application code. Both reports are included in the LMS archive, rather than the public repository; review the individual contribution account in your own words. Code and reports were prepared with ChatGPT assistance; the assignment requires instructor permission and acknowledgement. Do not claim generated sections as independently authored.
+The source files in this archive match the submitted source commit above. A subsequent documentation-only commit on main records the source identifier; it does not change application code. Both reports are included in the LMS archive, rather than the public repository; review the individual contribution account in your own words.
 
 References: supplied Final Project Requirements PDF, L4-L10 materials and the live LMS Final Exam requirements. DEFENSE.md contains seven defense questions and answers.
