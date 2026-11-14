@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../runtimes/liblibraryfee.dylib" Condition="$([MSBuild]::IsOSPlatform('OSX'))" Link="liblibraryfee.dylib" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../runtimes/liblibraryfee.so" Condition="$([MSBuild]::IsOSPlatform('Linux'))" Link="liblibraryfee.so" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

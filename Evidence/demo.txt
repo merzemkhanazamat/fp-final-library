@@ -1,0 +1,26 @@
+
+1 Books  2 Borrow  3 Return  4 Renew  5 Reports  0 Exit
+Book ID: Reader name (case-sensitive): Borrow day: Policy (1 standard: 2 loans, 2 extended: 4 loans): Success. Data saved.
+
+1 Books  2 Borrow  3 Return  4 Renew  5 Reports  0 Exit
+Book ID: Reader name (case-sensitive): Borrow day: Policy (1 standard: 2 loans, 2 extended: 4 loans): No copies of Functional Programming
+
+1 Books  2 Borrow  3 Return  4 Renew  5 Reports  0 Exit
+Loan ID: Operation day: Success. Data saved.
+
+1 Books  2 Borrow  3 Return  4 Renew  5 Reports  0 Exit
+Loan ID: Operation day: Success. Data saved.
+
+1 Books  2 Borrow  3 Return  4 Renew  5 Reports  0 Exit
+Loan ID: Operation day: Loan was already returned
+
+1 Books  2 Borrow  3 Return  4 Renew  5 Reports  0 Exit
+Current day (0..365000): Overdue count: 1
+Overdue loans
+1 | Demo Reader | CSharp Basics | late days: 6
+Category stock
+Programming | copies: 3 | borrowed: 1 | available: 2
+Mathematics | copies: 3 | borrowed: 0 | available: 3
+Overdue fee: 600 KZT
+
+1 Books  2 Borrow  3 Return  4 Renew  5 Reports  0 Exit
